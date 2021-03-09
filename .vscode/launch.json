@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+     {
+      "name": "Serveless Local",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+       "run",
+       "start"
+      ],
+      "port": 9229
+     }
+    ],
+    
+}

@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "types": ["node"],
+    "declaration": true,
+    "declarationMap": true,
+    "diagnostics": true,
+    "stripInternal": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "downlevelIteration": true,
+    "noFallthroughCasesInSwitch": true,
+    "removeComments": true,
+    "preserveConstEnums": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "checkJs": false,
+    "allowJs": false,
+    "strict": true,
+    "pretty": true,
+    "noEmit": true,
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es2015"],
+    "baseUrl": ".",
+    "paths": {
+      "#enterprise/*": ["src/1-enterprise/*"],
+      "#application/*": ["src/2-application/*"],
+      "#adapter/*": ["src/3-adapter/*"],
+      "#framework/*": ["src/4-framework/*"]
+    }
+  },
+  "exclude": ["**/node_modules"],
+  "include": ["src"]
+}

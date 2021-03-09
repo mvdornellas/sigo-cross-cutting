@@ -1,0 +1,17 @@
+connectUserLogged:
+    handler: ${self:custom.functionsDirectory}/userLogged/connect.handler
+    events:
+      - websocket:
+          route: $connect
+
+disconnectUserLogged:
+    handler: ${self:custom.functionsDirectory}/userLogged/disconnect.handler
+    events:
+      - websocket:
+          route: $disconnect
+
+defaultMessage:
+    handler: ${self:custom.functionsDirectory}/userLogged/defaultMessage.handler
+    events:
+      - websocket:
+          route: $default

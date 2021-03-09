@@ -1,0 +1,113 @@
+
+service: sigo-cross-cutting
+package:
+  individually: true
+
+custom:
+  warmup:
+    enabled: false # Whether to warm up functions by default or not
+    folderName: '_warmup' # Name of the folder created for the generated warmup 
+    cleanFolder: false
+    memorySize: 256
+    package:
+      individually: true
+      exclude: # exclude additional binaries that are included at the serverless package level
+        - ../**
+        - ../../**
+      include:
+        - ./**
+    timeout: 20
+    prewarm: false # Run WarmUp immediately after a deploymentlambda
+  functionsDirectory: src/4-framework/functions
+  webpack:
+    webpackConfig: './webpack.config.js'   # Name of webpack configuration file
+    includeModules:
+      forceInclude:
+        - mysql2
+      forceExclude:
+        - aws-sdk
+    packager: 'npm'   # Packager that will be used to package your external modules
+  serverless-offline:  
+    port: 3000   
+  contentCompression: 1024
+  stages:
+    - dev
+    - hml
+    - prod
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-2'}
+  profile: ${opt:profile, 'portal-sigo'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - 'lambda:InvokeFunction'
+      Resource: 'arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage, self:provider.stage}-*'  
+    - Effect: Allow
+      Action:
+        - 'ssm:GetParameter'
+        - 'ssm:GetParameters'
+        - 'ssm:GetParameterHistory'
+        - 'ssm:GetParametersByPath'
+        - 'ssm:DescribeParameters'
+      Resource: 'arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/*'
+    - Effect: Allow
+      Action:
+        - 'kms:Decrypt'
+      Resource: 'arn:aws:kms:#{AWS::Region}:#{AWS::AccountId}:key/alias/aws/ssm'
+    - Effect: 'Allow'
+      Action:
+        - sns:Publish
+      Resource: '*'
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:BatchWriteItem
+        # permission to create table if not exists
+        - dynamodb:CreateTable
+        # stream permissions
+        - dynamodb:DescribeStream
+        - dynamodb:GetRecords
+        - dynamodb:GetShardIterator
+        - dynamodb:ListStreams
+        - dynamodb:Scan
+      Resource: 'arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/*'
+    - Effect: Allow
+      Action:
+        - "execute-api:ManageConnections"
+        - "execute-api:Invoke"
+      Resource:
+        - "arn:aws:execute-api:*:*:**/@connections/*"
+  timeout: 30
+  package:
+    excludeDevDependencies: true
+    exclude:
+      - .git/**
+      - .vscode/**
+  environment:
+    STAGE: ${self:provider.stage}
+  websocketApiName: user-logged-${self:provider.stage}
+  websocketApiRouteSelectionExpression: $request.body.action
+functions: 
+  - ${file(${self:custom.functionsDirectory}/userLogged/_handlers.yml)}
+plugins:
+  - serverless-stage-manager   
+  - serverless-api-compression
+  - serverless-webpack
+  - serverless-offline
+  - serverless-pseudo-parameters
+  - serverless-plugin-warmup
+
+resources:
+  Resources:
+    ApiGatewayRestApi:
+      Type: AWS::ApiGateway::RestApi
+      Properties:
+        Name: ${self:provider.stage}-sigo
