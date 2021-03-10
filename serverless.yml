@@ -34,6 +34,8 @@ custom:
     - dev
     - hml
     - prod
+  cognito: 
+    userPoolId: ${ssm:cognitoUserPoolId}
 provider:
   name: aws
   runtime: nodejs12.x
@@ -111,3 +113,15 @@ resources:
       Type: AWS::ApiGateway::RestApi
       Properties:
         Name: ${self:provider.stage}-sigo
+        
+    ApiGatewayAuthorizer:
+      Type: AWS::ApiGateway::Authorizer
+      Properties:
+        Name: Cognito
+        Type: COGNITO_USER_POOLS
+        AuthorizerResultTtlInSeconds: 300
+        IdentitySource: method.request.header.Authorization
+        IdentityValidationExpression: .*
+        RestApiId: ${ssm:restApiId}
+        ProviderARNs:
+          - arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/${self:custom.cognito.userPoolId}
