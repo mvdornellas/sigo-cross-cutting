@@ -95,10 +95,12 @@ provider:
       - .vscode/**
   environment:
     STAGE: ${self:provider.stage}
-  websocketApiName: user-logged-${self:provider.stage}
+    WS_CONNECTION_URL: ${ssm:websocketConnectionUrl}
+    
+  websocketApiName: sigo-websocket-${self:provider.stage}
   websocketApiRouteSelectionExpression: $request.body.action
 functions: 
-  - ${file(${self:custom.functionsDirectory}/userLogged/_handlers.yml)}
+  - ${file(${self:custom.functionsDirectory}/user/_handlers.yml)}
 plugins:
   - serverless-stage-manager   
   - serverless-api-compression
@@ -125,3 +127,8 @@ resources:
         RestApiId: ${ssm:restApiId}
         ProviderARNs:
           - arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/${self:custom.cognito.userPoolId}
+
+    UserNotificatedTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: UserNotificated

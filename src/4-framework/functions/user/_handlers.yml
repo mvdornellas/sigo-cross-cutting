@@ -1,0 +1,22 @@
+connectUser:
+    handler: ${self:custom.functionsDirectory}/user/connect.handler
+    events:
+      - websocket:
+          route: $connect
+
+disconnectUser:
+    handler: ${self:custom.functionsDirectory}/user/disconnect.handler
+    events:
+      - websocket:
+          route: $disconnect
+
+defaultMessage:
+    handler: ${self:custom.functionsDirectory}/user/defaultMessage.handler
+    events:
+      - websocket:
+          route: $default
+
+notification:
+   handler: ${self:custom.functionsDirectory}/user/notification.handler
+   events:
+    - sns: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:UserNotificated
