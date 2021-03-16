@@ -101,6 +101,8 @@ provider:
   websocketApiRouteSelectionExpression: $request.body.action
 functions: 
   - ${file(${self:custom.functionsDirectory}/user/_handlers.yml)}
+  - ${file(${self:custom.functionsDirectory}/authorizer/_handlers.yml)}
+
 plugins:
   - serverless-stage-manager   
   - serverless-api-compression

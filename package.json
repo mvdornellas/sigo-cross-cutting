@@ -16,14 +16,16 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@types/jsonwebtoken": "^8.5.0",
+    "dynamoose": "^1.11.1",
+    "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
     "mysql2": "^2.1.0",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^5.21.4",
     "source-map-support": "^0.5.16",
-    "typedi": "^0.8.0",
-    "dynamoose": "^1.11.1"
+    "typedi": "^0.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",
@@ -55,12 +57,12 @@
     "source-map-loader": "^0.2.4",
     "source-map-support": "^0.5.16",
     "ts-loader": "^5.3.1",
+    "tslint": "^6.0.0",
+    "tslint-config-standard": "^9.0.0",
     "typescript": "^3.7.2",
     "webpack": "^4.38.0",
     "webpack-cli": "^3.3.10",
-    "webpack-node-externals": "^1.7.2",
-    "tslint": "^6.0.0",
-    "tslint-config-standard": "^9.0.0"
+    "webpack-node-externals": "^1.7.2"
   },
   "moduleNameMapper": {
     "#enterprise/(.*)": "<rootDir>/src/1-enterprise/$1",

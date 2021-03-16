@@ -1,0 +1,4 @@
+tokenAuthorizer:
+  handler: ${self:custom.functionsDirectory}/authorizer/token.handler
+  environment:
+    TOKEN_SECRET_KEY: ${ssm:tokenSecretKey}
