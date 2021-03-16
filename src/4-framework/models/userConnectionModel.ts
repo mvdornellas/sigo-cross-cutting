@@ -25,11 +25,6 @@ const schema = {
     type: String,
     required: true
   },
-  username: {
-    type: String,
-    required: true,
-    default: 'DEFAULT'
-  },
   createdAt: {
     type: Date,
     required: true
