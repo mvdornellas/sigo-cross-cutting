@@ -135,7 +135,7 @@ resources:
       Properties:
         Name: TokenAuthorizer
         Type: TOKEN
-        AuthorizerResultTtlInSeconds: 300
+        AuthorizerResultTtlInSeconds: 0
         IdentitySource: method.request.header.Authorization
         IdentityValidationExpression: .*
         RestApiId: ${ssm:restApiId}
