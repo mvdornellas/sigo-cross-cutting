@@ -130,17 +130,18 @@ resources:
         ProviderARNs:
           - arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/${self:custom.cognito.userPoolId}
 
-    # ApiGatewayAuthorizerToken:
-    #   Type: AWS::ApiGateway::Authorizer
-    #   Properties:
-    #     Name: TokenAuthorizer
-    #     Type: TOKEN
-    #     AuthorizerResultTtlInSeconds: 300
-    #     IdentitySource: method.request.header.Authorization
-    #     IdentityValidationExpression: .*
-    #     RestApiId: ${ssm:restApiId}
-    #     ProviderARNs:
-    #       - arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/${self:custom.cognito.userPoolId}
+    ApiGatewayAuthorizerToken:
+      Type: AWS::ApiGateway::Authorizer
+      Properties:
+        Name: TokenAuthorizer
+        Type: TOKEN
+        AuthorizerResultTtlInSeconds: 300
+        IdentitySource: method.request.header.Authorization
+        IdentityValidationExpression: .*
+        RestApiId: ${ssm:restApiId}
+        AuthorizerUri: arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:sigo-cross-cutting-dev-tokenAuthorizer/invocations
+
+
 
     UserNotificatedTopic:
       Type: AWS::SNS::Topic
