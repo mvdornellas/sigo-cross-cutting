@@ -141,6 +141,12 @@ resources:
         RestApiId: ${ssm:restApiId}
         AuthorizerUri: arn:aws:apigateway:#{AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:sigo-cross-cutting-dev-tokenAuthorizer/invocations
 
+    DefaultAuthorizerPermission:
+      Type: 'AWS::Lambda::Permission'
+      Properties:
+          Action: lambda:InvokeFunction
+          FunctionName: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:sigo-cross-cutting-dev-tokenAuthorizer
+          Principal: apigateway.amazonaws.com
 
 
     UserNotificatedTopic:
