@@ -130,7 +130,21 @@ resources:
         ProviderARNs:
           - arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/${self:custom.cognito.userPoolId}
 
+    # ApiGatewayAuthorizerToken:
+    #   Type: AWS::ApiGateway::Authorizer
+    #   Properties:
+    #     Name: TokenAuthorizer
+    #     Type: TOKEN
+    #     AuthorizerResultTtlInSeconds: 300
+    #     IdentitySource: method.request.header.Authorization
+    #     IdentityValidationExpression: .*
+    #     RestApiId: ${ssm:restApiId}
+    #     ProviderARNs:
+    #       - arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/${self:custom.cognito.userPoolId}
+
     UserNotificatedTopic:
       Type: AWS::SNS::Topic
       Properties:
         TopicName: UserNotificated
+
+   
