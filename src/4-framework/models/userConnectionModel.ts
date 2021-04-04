@@ -34,10 +34,11 @@ const schema = {
 export const UserConnectionModel: UserConnectionSchema = dynamoose.model<
   UserConnectionDataSchema,
   UserConnectionKeySchema>(
-    'SIGO',
+    'Users',
     new Schema(schema, {
       timestamps: true,
       saveUnknown: true,
-      useDocumentTypes: false
+      useDocumentTypes: false,
+      throughput: 'ON_DEMAND'
     })
   )
